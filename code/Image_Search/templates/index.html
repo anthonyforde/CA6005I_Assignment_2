@@ -1,0 +1,134 @@
+<html>
+<head>
+    <title>Image Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F7F7;
+            margin: 0;
+            padding: 0;
+            margin-top: 100px;
+        }
+
+        header {
+            background-color: #232323;
+            color: #FFF;
+            padding: 8px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        footer {
+            background-color: #232323;
+            color: #FFF;
+            padding: 10px;
+            text-align: center;
+            bottom: 0;
+        }
+
+        form {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+
+        input[type=text] {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 10px;
+            width: 60%;
+            font-size: 16px;
+        }
+
+        button[type=submit] {
+            background-color: #4CAF50;
+            color: #FFF;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .image-container {
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .image-container p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            margin-bottom: 30px;
+            box-shadow: 0px 0px 5px #888;
+        }
+
+        .no-results {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 18px;
+        }
+
+        /* New styles for the subheader */
+        .subheader {
+            font-style: normal;
+            font-size: 22px;
+            text-align: center;
+            margin-top: -10px;
+            left: 0;
+            right: 0;
+            background-color: #F7F7F7; /* add background color */
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Image Search</h1>
+    </header>
+    <!-- Added subheader below -->
+    <div class="subheader">
+        <br>
+        Library Collection: <span style="font-weight: bold;">20th-21st Century Warfare and Politics</span>
+        <br>
+        <span style="font-weight: normal; font-size: medium;">Themes: </span>
+        <span style="font-weight: normal; font-size: medium;">WWI, WWII, Communism, Fascism, Vietnam War, Political Protest</span>
+        <br>
+        <span style="font-weight: normal; font-size: medium;"> Click <a href="{{ url_for('imageindex') }}">here</a> for index of images. Click <a href="{{ url_for('samplequeries') }}">here</a> for sample test queries.</span>
+        <form method="POST">
+            <input type="text" name="search" placeholder="Enter a description...">
+            <button type="submit">Search</button>
+        </form>
+        </div>
+    {% if search_results %}
+        <div class="image-container">
+            <br><br><br><br><br><br><br><br><br>
+            <h2>Search results for: {{ search_query }}</h2>
+            {% for result in search_results %}
+            <div>
+                <p>{{ result['img_name'] }}: {{ result['caption'] }}</p>
+                <img src="{{ url_for('static', filename='images/' + result['img_name']) }}" alt="{{ result['img_name'] }}">
+            </div>
+            <br><br>
+            {% endfor %}
+        </div>
+    {% elif no_results %}
+        <div class="no-results">
+            <br><br><br><br><br><br><br><br><br>
+            <p>No results found.</p>
+        </div>
+    {% endif %}
+    <footer style="position: fixed; bottom: 0; left: 0; right: 0; background-color: #232323; color: #FFF; padding: 10px; text-align: center;">
+        All images courtesy of California State University's WorldImage database under the IMAGE Project. These works are licensed under a Creative Commons Attribution-Noncommercial 2.5 License. <br>
+        The use of these images is non-commercial and this website is purely research and academic in purpose.
+    </footer>
+</body>
+</html>
